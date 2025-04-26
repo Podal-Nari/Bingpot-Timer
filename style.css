@@ -21,32 +21,39 @@ body {
   justify-content: space-between;
   width: 300px;
   margin: 0 auto;
-  color: #ff6347; /* 공부중 기본 숫자색 */
+  color: #ff6347;
 }
 
 .tomato-wrapper {
   position: relative;
-}
-
-#tomato {
   width: 350px;
-  cursor: pointer;
-  transition: transform 0.3s, opacity 60s; /* 60초 부드러운 페이드 효과 */
-  z-index: 1;
+  height: 350px;
+  margin: 0 auto;
 }
 
-#tomato:active {
-  transform: scale(1.1);
+#tomatoA, #tomatoB {
+  width: 350px;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 1s ease;
+  z-index: 1;
+  opacity: 0;
+}
+
+#tomatoA.show, #tomatoB.show {
+  opacity: 1;
 }
 
 #break-button {
   width: 180px;
   position: absolute;
   bottom: -30px;
-  right: -10px; /* ⭐⭐⭐ 오른쪽으로 살짝 이동해서 자연스럽게! */
+  right: -10px;
   cursor: pointer;
   transition: transform 0.3s;
-  z-index: 2; /* 별이 토마토보다 위에 오도록 */
+  z-index: 2;
 }
 
 #break-button:active {
@@ -64,7 +71,7 @@ body {
 }
 
 #progress {
-  background: linear-gradient(90deg, #ff6240, #ffa95d); /* 공부중 트래킹바 색 */
+  background: linear-gradient(90deg, #ff6240, #ffa95d);
   width: 0%;
   height: 100%;
   transition: width 1s linear;
