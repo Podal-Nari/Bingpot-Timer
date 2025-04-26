@@ -1,3 +1,4 @@
+let currentImage = './assets/middletomato.png';
 const tomatoA = document.getElementById('tomatoA');
 const tomatoB = document.getElementById('tomatoB');
 const breakButton = document.getElementById('break-button');
