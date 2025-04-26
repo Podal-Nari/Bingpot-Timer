@@ -125,12 +125,15 @@ function resetToIdle() {
 }
 
 function changeTomatoImage(newSrc) {
+  tomato.style.transition = 'opacity 1s'; 
   tomato.style.opacity = 0;
+
   setTimeout(() => {
     tomato.src = newSrc;
     tomato.style.opacity = 1;
-  }, 300);
+  }, 1000);
 }
+
 
 function formatTime(seconds) {
   const min = String(Math.floor(seconds / 60)).padStart(2, '0');
