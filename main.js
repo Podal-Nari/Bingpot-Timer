@@ -126,6 +126,13 @@ function resetToIdle() {
 }
 
 function crossfadeTomato(newSrc) {
+  const currentTomato = activeTomato === 'A' ? tomatoA : tomatoB;
+
+  // 이미 현재 토마토 src랑 같으면 crossfade 스킵
+  if (currentTomato.src.includes(newSrc)) {
+    return;
+  }
+
   if (activeTomato === 'A') {
     tomatoB.src = newSrc;
     tomatoB.classList.add('show');
