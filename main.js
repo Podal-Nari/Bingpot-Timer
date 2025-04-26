@@ -127,10 +127,7 @@ function resetToIdle() {
 }
 
 function crossfadeTomato(newSrc) {
-  const currentTomato = activeTomato === 'A' ? tomatoA : tomatoB;
-
-  // 이미 현재 토마토 src랑 같으면 crossfade 스킵
-  if (currentTomato.src.includes(newSrc)) {
+  if (currentImage === newSrc) {
     return;
   }
 
@@ -145,7 +142,10 @@ function crossfadeTomato(newSrc) {
     tomatoB.classList.remove('show');
     activeTomato = 'A';
   }
+
+  currentImage = newSrc;
 }
+
 
 function formatTime(seconds) {
   const min = String(Math.floor(seconds / 60)).padStart(2, '0');
