@@ -1,6 +1,3 @@
-const POMODORO_DURATION = 60; // 1분!
-const BREAK_DURATION = 20;    // 20초!
-
 const tomato = document.getElementById('tomato');
 const breakButton = document.getElementById('break-button');
 const elapsed = document.getElementById('elapsed');
@@ -14,6 +11,11 @@ const pauseSound = new Audio('./assets/pause.wav');
 const studyOverSound = new Audio('./assets/studyover.wav');
 const pomodoroOverSound = new Audio('./assets/pomodoroover.wav');
 const breakMusic = new Audio('./assets/1-12 Noon.mp3');
+
+// 🍅 테스트용 설정
+const TEST_MODE = true; // 👉 true면 테스트용 시간, false면 실제시간
+const POMODORO_DURATION = TEST_MODE ? 60 : 1500; // 테스트시 1분, 실제 25분
+const BREAK_DURATION = TEST_MODE ? 20 : 300;      // 테스트시 20초, 실제 5분
 
 let timer;
 let startTime;
@@ -43,17 +45,17 @@ function updateTimer() {
   const elapsedSec = Math.floor(elapsedMs / 1000);
 
   if (!isBreak) {
-    const remainingSec = 1500 - elapsedSec;
+    const remainingSec = POMODORO_DURATION - elapsedSec;
 
     elapsed.textContent = `+${formatTime(elapsedSec)}`;
     remaining.textContent = `-${formatTime(remainingSec)}`;
-    progress.style.width = `${(elapsedSec / 1500) * 100}%`;
+    progress.style.width = `${(elapsedSec / POMODORO_DURATION) * 100}%`;
 
-    if (elapsedSec < 500) {
+    if (elapsedSec < POMODORO_DURATION * (1/3)) {
       changeTomatoImage('./assets/firsttomato.png');
-    } else if (elapsedSec >= 500 && elapsedSec < 1000) {
+    } else if (elapsedSec >= POMODORO_DURATION * (1/3) && elapsedSec < POMODORO_DURATION * (2/3)) {
       changeTomatoImage('./assets/middletomato.png');
-    } else if (elapsedSec >= 1000) {
+    } else if (elapsedSec >= POMODORO_DURATION * (2/3)) {
       changeTomatoImage('./assets/lasttomato.png');
     }
 
@@ -63,17 +65,17 @@ function updateTimer() {
       startBreak();
     }
   } else {
-    const remainingSec = 300 - elapsedSec;
+    const remainingSec = BREAK_DURATION - elapsedSec;
 
     elapsed.textContent = `+${formatTime(elapsedSec)}`;
     remaining.textContent = `-${formatTime(remainingSec)}`;
-    progress.style.width = `${(elapsedSec / 300) * 100}%`;
+    progress.style.width = `${(elapsedSec / BREAK_DURATION) * 100}%`;
 
-    if (elapsedSec < 150) {
+    if (elapsedSec < BREAK_DURATION * (1/3)) {
       changeTomatoImage('./assets/lasttomato.png');
-    } else if (elapsedSec >= 150 && elapsedSec < 250) {
+    } else if (elapsedSec >= BREAK_DURATION * (1/3) && elapsedSec < BREAK_DURATION * (5/6)) {
       changeTomatoImage('./assets/middletomato.png');
-    } else if (elapsedSec >= 250) {
+    } else if (elapsedSec >= BREAK_DURATION * (5/6)) {
       changeTomatoImage('./assets/firsttomato.png');
     }
 
@@ -83,7 +85,7 @@ function updateTimer() {
       isRunning = false;
       isBreak = false;
       resetVisuals();
-      resetToIdle(); // 대기 상태로 복귀
+      resetToIdle();
     }
   }
 }
@@ -116,7 +118,7 @@ function resetVisuals() {
 
 function resetToIdle() {
   elapsed.textContent = '+00:00';
-  remaining.textContent = '-25:00';
+  remaining.textContent = `-${formatTime(POMODORO_DURATION)}`;
   progress.style.width = '0%';
   tomato.src = './assets/middletomato.png';
   initialStart = true;
