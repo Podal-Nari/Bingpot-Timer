@@ -31,7 +31,7 @@ body {
 #tomato {
   width: 350px;
   cursor: pointer;
-  transition: transform 0.3s, opacity 60s; /* 60초 페이드 효과 */
+  transition: transform 0.3s, opacity 60s; /* 60초 부드러운 페이드 효과 */
   z-index: 1;
 }
 
@@ -43,10 +43,10 @@ body {
   width: 180px;
   position: absolute;
   bottom: -30px;
-  right: 20px; /* 약간 왼쪽으로 */
+  right: -10px; /* ⭐⭐⭐ 오른쪽으로 살짝 이동해서 자연스럽게! */
   cursor: pointer;
   transition: transform 0.3s;
-  z-index: 2;
+  z-index: 2; /* 별이 토마토보다 위에 오도록 */
 }
 
 #break-button:active {
@@ -64,7 +64,7 @@ body {
 }
 
 #progress {
-  background: linear-gradient(90deg, #ff6240, #ffa95d); /* 기본 공부용 트래킹바 */
+  background: linear-gradient(90deg, #ff6240, #ffa95d); /* 공부중 트래킹바 색 */
   width: 0%;
   height: 100%;
   transition: width 1s linear;
