@@ -44,7 +44,6 @@ function updateTimer() {
     remaining.textContent = `-${formatTime(remainingSec)}`;
     progress.style.width = `${(elapsedSec / 1500) * 100}%`;
 
-    // 토마토 전환
     if (elapsedSec >= 500 && elapsedSec < 1000) {
       tomato.src = './assets/middletomato.png';
     } else if (elapsedSec >= 1000) {
@@ -117,4 +116,3 @@ function parseTime(timeString) {
   const [min, sec] = timeString.split(":").map(Number);
   return min * 60 + sec;
 }
-
