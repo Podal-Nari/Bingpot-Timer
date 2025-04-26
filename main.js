@@ -46,7 +46,9 @@ function updateTimer() {
     remaining.textContent = `-${formatTime(remainingSec)}`;
     progress.style.width = `${(elapsedSec / 1500) * 100}%`;
 
-    if (elapsedSec >= 500 && elapsedSec < 1000) {
+    if (elapsedSec < 500) {
+      changeTomatoImage('./assets/firsttomato.png');
+    } else if (elapsedSec >= 500 && elapsedSec < 1000) {
       changeTomatoImage('./assets/middletomato.png');
     } else if (elapsedSec >= 1000) {
       changeTomatoImage('./assets/lasttomato.png');
@@ -64,7 +66,9 @@ function updateTimer() {
     remaining.textContent = `-${formatTime(remainingSec)}`;
     progress.style.width = `${(elapsedSec / 300) * 100}%`;
 
-    if (elapsedSec >= 150 && elapsedSec < 250) {
+    if (elapsedSec < 150) {
+      changeTomatoImage('./assets/lasttomato.png');
+    } else if (elapsedSec >= 150 && elapsedSec < 250) {
       changeTomatoImage('./assets/middletomato.png');
     } else if (elapsedSec >= 250) {
       changeTomatoImage('./assets/firsttomato.png');
