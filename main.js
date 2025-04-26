@@ -1,3 +1,6 @@
+const POMODORO_DURATION = 60; // 1분!
+const BREAK_DURATION = 20;    // 20초!
+
 const tomato = document.getElementById('tomato');
 const breakButton = document.getElementById('break-button');
 const elapsed = document.getElementById('elapsed');
