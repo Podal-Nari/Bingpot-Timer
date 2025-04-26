@@ -1,4 +1,5 @@
-const tomato = document.getElementById('tomato');
+const tomatoA = document.getElementById('tomatoA');
+const tomatoB = document.getElementById('tomatoB');
 const breakButton = document.getElementById('break-button');
 const elapsed = document.getElementById('elapsed');
 const remaining = document.getElementById('remaining');
@@ -12,10 +13,9 @@ const studyOverSound = new Audio('./assets/studyover.wav');
 const pomodoroOverSound = new Audio('./assets/pomodoroover.wav');
 const breakMusic = new Audio('./assets/1-12 Noon.mp3');
 
-// 🍅 테스트용 설정
-const TEST_MODE = true; // 👉 true면 테스트용 시간, false면 실제시간
-const POMODORO_DURATION = TEST_MODE ? 60 : 1500; // 테스트시 1분, 실제 25분
-const BREAK_DURATION = TEST_MODE ? 20 : 300;      // 테스트시 20초, 실제 5분
+const TEST_MODE = true;
+const POMODORO_DURATION = TEST_MODE ? 60 : 1500;
+const BREAK_DURATION = TEST_MODE ? 20 : 300;
 
 let timer;
 let startTime;
@@ -24,6 +24,7 @@ let isPaused = false;
 let isBreak = false;
 let breakMusicPlayed = 0;
 let initialStart = true;
+let activeTomato = 'A'; // 현재 보이는 토마토
 
 function startTimer() {
   if (isRunning) return;
@@ -32,7 +33,7 @@ function startTimer() {
 
   if (initialStart) {
     interactionSound.play();
-    changeTomatoImage('./assets/firsttomato.png');
+    crossfadeTomato('./assets/firsttomato.png');
     initialStart = false;
   }
 
@@ -52,11 +53,11 @@ function updateTimer() {
     progress.style.width = `${(elapsedSec / POMODORO_DURATION) * 100}%`;
 
     if (elapsedSec < POMODORO_DURATION * (1/3)) {
-      changeTomatoImage('./assets/firsttomato.png');
+      crossfadeTomato('./assets/firsttomato.png');
     } else if (elapsedSec >= POMODORO_DURATION * (1/3) && elapsedSec < POMODORO_DURATION * (2/3)) {
-      changeTomatoImage('./assets/middletomato.png');
+      crossfadeTomato('./assets/middletomato.png');
     } else if (elapsedSec >= POMODORO_DURATION * (2/3)) {
-      changeTomatoImage('./assets/lasttomato.png');
+      crossfadeTomato('./assets/lasttomato.png');
     }
 
     if (remainingSec <= 0) {
@@ -72,11 +73,11 @@ function updateTimer() {
     progress.style.width = `${(elapsedSec / BREAK_DURATION) * 100}%`;
 
     if (elapsedSec < BREAK_DURATION * (1/3)) {
-      changeTomatoImage('./assets/lasttomato.png');
+      crossfadeTomato('./assets/lasttomato.png');
     } else if (elapsedSec >= BREAK_DURATION * (1/3) && elapsedSec < BREAK_DURATION * (5/6)) {
-      changeTomatoImage('./assets/middletomato.png');
+      crossfadeTomato('./assets/middletomato.png');
     } else if (elapsedSec >= BREAK_DURATION * (5/6)) {
-      changeTomatoImage('./assets/firsttomato.png');
+      crossfadeTomato('./assets/firsttomato.png');
     }
 
     if (remainingSec <= 0) {
@@ -102,7 +103,7 @@ function startBreak() {
     }
   });
 
-  progressBar.style.background = "#d9fdd3"; 
+  progressBar.style.background = "#d9fdd3";
   progress.style.background = "linear-gradient(90deg, #80c904, #4caf50)";
   timeInfo.style.color = "#4caf50";
 
@@ -120,20 +121,23 @@ function resetToIdle() {
   elapsed.textContent = '+00:00';
   remaining.textContent = `-${formatTime(POMODORO_DURATION)}`;
   progress.style.width = '0%';
-  tomato.src = './assets/middletomato.png';
+  crossfadeTomato('./assets/middletomato.png');
   initialStart = true;
 }
 
-function changeTomatoImage(newSrc) {
-  tomato.style.transition = 'opacity 1s'; 
-  tomato.style.opacity = 0;
-
-  setTimeout(() => {
-    tomato.src = newSrc;
-    tomato.style.opacity = 1;
-  }, 1000);
+function crossfadeTomato(newSrc) {
+  if (activeTomato === 'A') {
+    tomatoB.src = newSrc;
+    tomatoB.classList.add('show');
+    tomatoA.classList.remove('show');
+    activeTomato = 'B';
+  } else {
+    tomatoA.src = newSrc;
+    tomatoA.classList.add('show');
+    tomatoB.classList.remove('show');
+    activeTomato = 'A';
+  }
 }
-
 
 function formatTime(seconds) {
   const min = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -141,7 +145,13 @@ function formatTime(seconds) {
   return `${min}:${sec}`;
 }
 
-tomato.addEventListener('click', () => {
+tomatoA.addEventListener('click', () => {
+  if (!isRunning && !isPaused) {
+    startTimer();
+  }
+});
+
+tomatoB.addEventListener('click', () => {
   if (!isRunning && !isPaused) {
     startTimer();
   }
