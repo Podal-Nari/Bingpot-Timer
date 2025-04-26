@@ -13,13 +13,21 @@ const breakMusic = new Audio('./assets/1-12 Noon.mp3');
 let timer;
 let startTime;
 let isRunning = false;
+let isPaused = false;
 let isBreak = false;
 let breakMusicPlayed = 0;
+let initialStart = true;
 
 function startTimer() {
   if (isRunning) return;
   isRunning = true;
-  interactionSound.play();
+  isPaused = false;
+
+  if (initialStart) {
+    interactionSound.play();
+    tomato.src = './assets/firsttomato.png';
+    initialStart = false;
+  }
 
   startTime = Date.now();
   timer = setInterval(updateTimer, 1000);
@@ -36,7 +44,7 @@ function updateTimer() {
     remaining.textContent = `-${formatTime(remainingSec)}`;
     progress.style.width = `${(elapsedSec / 1500) * 100}%`;
 
-    // 토마토 익히기 로직
+    // 토마토 전환
     if (elapsedSec >= 500 && elapsedSec < 1000) {
       tomato.src = './assets/middletomato.png';
     } else if (elapsedSec >= 1000) {
@@ -84,12 +92,29 @@ function formatTime(seconds) {
   return `${min}:${sec}`;
 }
 
-tomato.addEventListener('click', startTimer);
-
-breakButton.addEventListener('click', () => {
-  if (isRunning) {
-    pauseSound.play();
-    clearInterval(timer);
-    isRunning = false;
+tomato.addEventListener('click', () => {
+  if (!isRunning && !isPaused) {
+    startTimer();
   }
 });
+
+breakButton.addEventListener('click', () => {
+  if (isRunning && !isPaused) {
+    pauseSound.play();
+    clearInterval(timer);
+    isPaused = true;
+    isRunning = false;
+  } else if (isPaused) {
+    pauseSound.play();
+    startTime = Date.now() - (parseTime(elapsed.textContent.slice(1)) * 1000);
+    timer = setInterval(updateTimer, 1000);
+    isPaused = false;
+    isRunning = true;
+  }
+});
+
+function parseTime(timeString) {
+  const [min, sec] = timeString.split(":").map(Number);
+  return min * 60 + sec;
+}
+
