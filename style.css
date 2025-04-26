@@ -1,5 +1,5 @@
 body {
-  background: #fff6f0;
+  background: transparent;
   font-family: 'Barrio', cursive;
   display: flex;
   justify-content: center;
@@ -16,7 +16,7 @@ body {
 
 .time-info {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
   width: 300px;
@@ -29,21 +29,26 @@ body {
 }
 
 #tomato {
-  width: 300px;
+  width: 350px;
+  cursor: pointer;
+  transition: transform 0.3s, opacity 1s;
+}
+
+#tomato:active {
+  transform: scale(1.1);
+}
+
+#break-button {
+  width: 90px;
+  position: absolute;
+  bottom: -10px;
+  right: -20px;
   cursor: pointer;
   transition: transform 0.3s;
 }
 
-#tomato:active {
-  transform: scale(1.05);
-}
-
-#break-button {
-  width: 60px;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  cursor: pointer;
+#break-button:active {
+  transform: scale(1.1);
 }
 
 .progress-bar {
@@ -51,9 +56,9 @@ body {
   width: 320px;
   height: 10px;
   border-radius: 999px;
-  margin-top: 20px;
+  margin-top: 10px;
   overflow: hidden;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 #progress {
@@ -64,9 +69,10 @@ body {
 }
 
 .watermark {
-  font-size: 14px;
-  color: #aaa;
+  font-size: 16px;
+  color: #80c904;
   position: absolute;
-  bottom: 10px;
+  bottom: 0px;
   right: 20px;
 }
+
