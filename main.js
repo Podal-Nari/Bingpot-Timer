@@ -14,7 +14,7 @@ const studyOverSound = new Audio('./assets/studyover.wav');
 const pomodoroOverSound = new Audio('./assets/pomodoroover.wav');
 const breakMusic = new Audio('./assets/1-12 Noon.mp3');
 
-const TEST_MODE = true;
+const TEST_MODE = false;
 const POMODORO_DURATION = TEST_MODE ? 60 : 1500;
 const BREAK_DURATION = TEST_MODE ? 20 : 300;
 
